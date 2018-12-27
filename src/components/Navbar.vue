@@ -13,8 +13,28 @@
                 <v-list-tile-title>Логин пользователя</v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
+
           </v-list>
         </v-toolbar>
+
+        <v-list class="pt-0 hidden-md-and-up" dense>
+          <v-divider></v-divider>
+
+          <v-list-tile
+            v-for="(link, i) in links"
+            :key="i"
+            :to="link.url"
+          >
+            <v-list-tile-action>
+              <v-icon>{{ link.icon }}</v-icon>
+            </v-list-tile-action>
+
+            <v-list-tile-content>
+              <v-list-tile-title>{{ link.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+        </v-list>
 
         <v-list class="pt-0" dense>
           <v-divider></v-divider>
@@ -22,7 +42,7 @@
           <v-list-tile
             v-for="item in items"
             :key="item.title"
-            @click=""
+            :to="item.url"
           >
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
@@ -30,6 +50,18 @@
 
             <v-list-tile-content>
               <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+          <v-divider></v-divider>
+
+          <v-list-tile @click="addAccount">
+            <v-list-tile-action>
+              <v-icon>add</v-icon>
+            </v-list-tile-action>
+
+            <v-list-tile-content>
+              <v-list-tile-title>Добавить аккаунт</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -40,12 +72,16 @@
         <v-toolbar-title>Bot Name</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
-          <v-btn flat>
-            <v-icon left>account_box</v-icon>
-            Войти</v-btn>
-          <v-btn flat>
-            <v-icon left>create</v-icon>
-            Регистрация</v-btn>
+          <v-btn
+            flat
+            v-for="(link, i) in links"
+            :key="i"
+            :to="link.url"
+          >
+            <v-icon left>{{ link.icon }}</v-icon>
+            {{ link.title }}
+          </v-btn>
+
           <v-btn flat @click="sideNav = !sideNav">
             <v-icon left>settings</v-icon>
             Настройки</v-btn>
@@ -65,11 +101,20 @@ export default {
     return {
       sideNav: false,
       items: [
-        { title: 'Аккаунт в игре 1', icon: 'verified_user' },
-        { title: 'Аккаунт в игре 2', icon: 'verified_user' },
-        { title: 'Добавить аккаунт', icon: 'add' }
+        { title: 'Аккаунт в игре 1', icon: 'verified_user', url: '/user/account' }
+        // { title: 'Добавить аккаунт', icon: 'add' }
       ],
-      right: null
+      right: null,
+      links: [
+        {title: 'Главная', icon: 'home', url: '/'},
+        {title: 'Войти', icon: 'account_box', url: '/login'},
+        {title: 'Регистрация', icon: 'add', url: '/register'}
+      ]
+    }
+  },
+  methods: {
+    addAccount: function () {
+      this.items.push({ title: 'Аккаунт в игре 3', icon: 'verified_user', url: '/user/account3' })
     }
   }
 }
