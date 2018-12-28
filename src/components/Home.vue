@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-layouut row>
+    <v-layout row>
       <v-flex xs12>
         <h1>Home</h1>
       </v-flex>
-    </v-layouut>
+    </v-layout>
   </v-container>
 </template>
 

@@ -10,7 +10,9 @@
             expand-icon="mdi-menu-down"
           >
             <div slot="header" class="display-1">{{ item.title }}</div>
-
+            <v-layout>
+              <v-checkbox :label="`Автоматически получать и отправлять подарки в игре!`" v-model="receiveGifts" class="pl-5"></v-checkbox>
+            </v-layout>
             <v-layout  justify-space-around>
               <v-flex xs12 sm5 d-flex>
                 <v-text-field
@@ -28,6 +30,9 @@
             </v-layout>
 
             <v-layout  justify-space-around>
+               <!--изменить потом на это и добавить обьект в массив подарков с id
+              :items="gifts"
+              item-text="title"-->
               <v-flex xs12 sm5 d-flex>
                 <v-text-field
                   label="id получателя"
@@ -74,10 +79,12 @@
 export default {
   data () {
     return {
+      receiveGifts: true,
       items: [
         {title: 'Отправка и получение подарков'}
       ],
       gifts: [
+        // {title: 'Коробочка - с 1 уровня', id: 1}
         'Коробочка - с 1 уровня',
         'Цветочек - с 2 уровня',
         'Чаша здоровья - с 5 уровня',

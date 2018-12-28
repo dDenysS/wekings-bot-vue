@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layouut row>
+    <v-layout row>
       <v-flex xs12>
         <v-card class="elevation-12">
           <v-toolbar dark color="primary">
@@ -30,11 +30,16 @@
             </v-form>
           </v-card-text>
           <v-card-actions class="justify-space-between">
-            <v-btn
-              color="primary"
-              @click="onSubmit"
-              :disabled="!valid"
-            >Вход</v-btn>
+            <v-layout>
+              <v-btn
+                color="primary"
+                @click="onSubmit"
+                :disabled="!valid"
+              >Вход</v-btn>
+              <v-btn
+                color="primary"
+              >Забыли пароль?</v-btn>
+            </v-layout>
             <v-btn
               color="primary"
               :to="'/register'"
@@ -42,7 +47,7 @@
           </v-card-actions>
         </v-card>
       </v-flex>
-    </v-layouut>
+    </v-layout>
   </v-container>
 </template>
 
