@@ -1,7 +1,7 @@
 <template>
-  <v-container>
-    <v-layout row>
-      <v-flex xs12>
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <v-flex xs12 sm8 md6>
         <v-card class="elevation-12">
           <v-toolbar dark color="primary">
             <v-toolbar-title>Форма входа:</v-toolbar-title>

@@ -10,6 +10,10 @@
           >
             <div slot="header" class="display-1">{{ item.title }}</div>
 
+            <v-layout>
+              <v-checkbox :label="`Автоматически отправлять проклятия в игре!`" v-model="sendCurses" class="pl-5"></v-checkbox>
+            </v-layout>
+
             <v-layout  justify-space-around>
               <v-flex xs12 sm5 d-flex>
                 <v-text-field
@@ -73,6 +77,7 @@
 export default {
   data () {
     return {
+      sendCurses: true,
       items: [
         {title: 'Отправка проклятий'}
       ],

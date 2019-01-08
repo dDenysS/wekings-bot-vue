@@ -2,7 +2,17 @@
   <v-container>
     <v-layout row>
       <v-flex xs12>
-        <h1 class="my-3 pl-3">Логин пользователя в игре</h1>
+        <v-layout justify-space-between>
+          <h1 class="my-3 pl-3">Логин пользователя в игре</h1>
+          <!--TODO переделать с реактивносьтю и без v-spacer.-->
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
+          <v-switch
+            :label="`Бот включен`"
+            v-model="runBot"
+          ></v-switch>
+        </v-layout>
         <v-expansion-panel>
           <v-expansion-panel-content
             v-for="(item ,i) in items"
@@ -30,13 +40,9 @@
             </v-layout>
 
             <v-layout  justify-space-around>
-               <!--изменить потом на это и добавить обьект в массив подарков с id
-              :items="gifts"
-              item-text="title"-->
               <v-flex xs12 sm5 d-flex>
                 <v-text-field
                   label="id получателя"
-
                 ></v-text-field>
               </v-flex>
 
@@ -80,6 +86,7 @@ export default {
   data () {
     return {
       receiveGifts: true,
+      runBot: true,
       items: [
         {title: 'Отправка и получение подарков'}
       ],

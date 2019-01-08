@@ -69,7 +69,13 @@
       </v-navigation-drawer>
       <v-toolbar app dark color="primary">
         <v-toolbar-side-icon @click="sideNav = !sideNav"></v-toolbar-side-icon>
-        <v-toolbar-title>Bot Name</v-toolbar-title>
+        <v-toolbar-title>
+          <router-link
+            :to="'/'"
+            tag="span"
+            class="title-pointer"
+          >Bot Name</router-link>
+        </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn
@@ -121,5 +127,7 @@ export default {
 </script>
 
 <style scoped>
-
+  .title-pointer {
+    cursor: pointer;
+  }
 </style>
