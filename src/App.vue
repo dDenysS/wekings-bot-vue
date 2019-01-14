@@ -4,6 +4,7 @@
   </v-app>
 </template>
 
+
 <script>
 import * as types from './store/actions.types'
 
