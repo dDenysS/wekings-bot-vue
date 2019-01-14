@@ -1,20 +1,16 @@
 <template>
   <v-app>
-    <Navbar/>
+    <router-view/>
   </v-app>
 </template>
 
 <script>
+import * as types from './store/actions.types'
 
-import Navbar from './components/Navbar'
 export default {
-  components: {Navbar},
-  comments: {
-    Navbar
-  }
+    name: 'App',
+    created () {
+        this.$store.dispatch(types.AUTH_STATUS)
+    }
 }
 </script>
-
-<style>
-
-</style>
