@@ -65,7 +65,7 @@ export default {
             rules: {
                 email: [
                     v => !!v || 'Введите свой email',
-                    v => /.+@.+/.test(v) || 'E-mail должен быть допустимым'
+                    v => /.+@.+\..+/.test(v) || 'E-mail должен быть допустимым'
                 ],
                 password: [
                     v => !!v || 'Введите пароль',
@@ -81,7 +81,7 @@ export default {
     },
     methods: {
         onSubmit () { // TODO можна не писати ключового слова 'function'
-            if (this.$refs.form.validate()) return
+            if (!this.$refs.form.validate()) return
 
             this.$set(this.loading, 'submitButton', true)
             this.$http.post('/auth/register', {
@@ -89,6 +89,7 @@ export default {
                 password: this.password,
                 confirmPassword: this.confirmPassword
             }).then(() => {
+                this.$bus.$emit('show-snackbar', 'Аккаунт успешно создан', 'success', 8000)
                 this.$router.push({name: 'login'})
             }).catch(err => {
                 this.$bus.$emit('show-snackbar', `Ошибка авторизации. ${err.message}`, 'error', 12000)

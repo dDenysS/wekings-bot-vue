@@ -36,14 +36,14 @@
                     <v-card-actions class="justify-space-between">
                         <v-layout>
                             <v-spacer/>
-                            <v-btn color="primary"
+                            <v-btn color="indigo white--text" class="mr-3">
+                                Забыли пароль?
+                            </v-btn>
+                            <v-btn color="green white--text"
                                    @click="onSubmit"
                                    :loading="loading.submitButton"
                                    :disabled="!valid">
                                 Вход
-                            </v-btn>
-                            <v-btn color="primary">
-                                Забыли пароль?
                             </v-btn>
                         </v-layout>
                     </v-card-actions>
@@ -60,8 +60,8 @@ export default {
     name: 'Login', // TODO не забувай компонентам додавати name. Щоб в консолы юачити назву компонента в якому помилка
     data () {
         return {
-            email: '',
-            password: '',
+            email: 'test@test.test',
+            password: 'zxcasd',
             valid: false,
             loading: {
                 submitButton: false
@@ -69,7 +69,7 @@ export default {
             rules: {
                 email: [
                     v => !!v || 'Введите свой email',
-                    v => /.+@.+/.test(v) || 'E-mail должен быть допустимым'
+                    v => /.+@.+\..+/.test(v) || 'E-mail должен быть допустимым'
                 ],
                 password: [
                     v => !!v || 'Введите свой пароль',
@@ -84,7 +84,10 @@ export default {
             if (!this.$refs.form.validate()) return
 
             this.$set(this.loading, 'submitButton', true)
-            this.$store.dispatch(types.AUTH_SING_IN).catch(err => {
+            this.$store.dispatch(types.AUTH_SING_IN, {
+                email: this.email,
+                password: this.password
+            }).catch(err => {
                 this.$bus.$emit('show-snackbar', `Ошибка авторизации. ${err.message}`, 'error', 12000)
             }).finally(() => {
                 this.$set(this.loading, 'submitButton', false)

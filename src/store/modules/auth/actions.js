@@ -6,7 +6,7 @@ function redirect (state) {
     if (state.isAuth) {
         const uri = window.location.search.substring(1)
         const params = new URLSearchParams(uri)
-        router.push(params.get('redirect') || window.location.pathname)
+        router.push(params.get('redirect') || '/')
     }
 }
 
@@ -15,8 +15,8 @@ export default {
         return new Promise((resolve, reject) => {
             http('/auth/status')
                 .then(({data}) => {
-                    commit(types.AUTH_STATUS, data)
-                    // redirect(data)
+                    commit(types.AUTH_SUCCESS, data)
+                    redirect(data)
                     resolve()
                 })
                 .catch(err => {
@@ -28,8 +28,8 @@ export default {
         return new Promise((resolve, reject) => {
             http.post('/auth/login', form)
                 .then(({data}) => {
-                    commit(types.SET_AUTH, data)
-                    redirect(data)
+                    commit(types.AUTH_SUCCESS, {...data, isAuth: true})
+                    redirect({...data, isAuth: true})
                     resolve()
                 })
                 .catch(err => {

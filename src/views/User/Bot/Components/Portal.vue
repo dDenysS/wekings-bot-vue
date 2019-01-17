@@ -23,14 +23,14 @@
 
 <script>
 export default {
-  data () {
-    return {
-      goToPortal: true,
-      items: [
-        {title: 'Портал'}
-      ]
+    data () {
+        return {
+            goToPortal: true,
+            items: [
+                {title: 'Портал'}
+            ]
+        }
     }
-  }
 }
 </script>
 

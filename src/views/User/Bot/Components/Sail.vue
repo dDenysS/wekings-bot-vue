@@ -28,15 +28,15 @@
 
 <script>
 export default {
-  data () {
-    return {
-      goToSail: true,
-      items: [
-        {title: 'Плавание'}
-      ],
-      radioGroup: 'sailWithGroup'
+    data () {
+        return {
+            goToSail: true,
+            items: [
+                {title: 'Плавание'}
+            ],
+            radioGroup: 'sailWithGroup'
+        }
     }
-  }
 }
 </script>
 

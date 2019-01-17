@@ -1,8 +1,6 @@
 <template>
     <v-app>
-        <navigation-drawer/>
         <v-toolbar app dark color="primary">
-            <v-toolbar-side-icon @click="openNavDrawer"/>
             <v-toolbar-title>
                 <router-link
                         to="/"
@@ -12,16 +10,15 @@
                 </router-link>
             </v-toolbar-title>
             <v-spacer/>
-            <v-toolbar-items class="hidden-sm-and-down">
-                <v-btn flat
-                        v-for="(link, i) in links"
-                        :key="i">
-                    <v-icon left>{{ link.icon }}</v-icon>
-                    {{ link.title }}
-                </v-btn>
+            <v-toolbar-items>
                 <v-btn flat @click="sideNav = !sideNav">
                     <v-icon left>settings</v-icon>
-                    Настройки</v-btn>
+                    Настройки
+                </v-btn>
+                <v-btn flat @click="logout">
+                    <v-icon left>exit_to_app</v-icon>
+                    Вийти
+                </v-btn>
             </v-toolbar-items>
         </v-toolbar>
         <v-content>
@@ -33,24 +30,18 @@
 
 <script>
 import Snackbar from '../components/Snackbar'
-import NavigationDrawer from '../components/NavigationDrawer'
+import * as types from '../store/actions.types'
 
 export default {
     name: 'Layout',
     components: {
-        Snackbar,
-        NavigationDrawer
-    },
-    data () {
-        return {
-            links: [
-                {title: 'Главная', icon: 'home', url: '/'},
-            ]
-        }
+        Snackbar
     },
     methods: {
-        openNavDrawer () {
-            this.$bus.$emit('open-navigation-drawer')
+        logout () {
+            this.$store.dispatch(types.AUTH_LOGOUT).catch(err => {
+                this.$bus.$emit('show-snackbar', `Ошибка. ${err.message}`, 'error', 7000)
+            })
         }
     }
 }

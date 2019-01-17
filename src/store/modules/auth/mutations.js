@@ -1,7 +1,7 @@
 import * as types from '../../actions.types'
 
 export default {
-    [types.AUTH_STATUS]: (state, data) => {
+    [types.AUTH_SUCCESS]: (state, data) => {
         state.isAuth = data.isAuth
         state.user = data.user
     },

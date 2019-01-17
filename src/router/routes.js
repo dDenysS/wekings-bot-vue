@@ -4,8 +4,18 @@ export default [
         component: () => import('../views/Layout'),
         children: [
             {
+                path: '/',
+                name: 'home',
+                component: () => import('../views/Home/index')
+            },
+            {
                 path: 'bot',
                 name: 'bot',
+                component: () => import('../views/User/Bot')
+            },
+            {
+                path: 'bot/settings',
+                name: 'botSettings',
                 component: () => import('../views/User/Bot')
             }
             /* { //TODO зробиш сторінку 404

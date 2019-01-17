@@ -28,15 +28,15 @@
 
 <script>
 export default {
-  data () {
-    return {
-      goToDungeon: true,
-      items: [
-        {title: 'Подземелье'}
-      ],
-      radioGroup: 'dungeonWithGroup'
+    data () {
+        return {
+            goToDungeon: true,
+            items: [
+                {title: 'Подземелье'}
+            ],
+            radioGroup: 'dungeonWithGroup'
+        }
     }
-  }
 }
 </script>
 

@@ -29,14 +29,14 @@
 
 <script>
 export default {
-  data () {
-    return {
-      goToArena: true,
-      items: [
-        {title: 'Арена'}
-      ]
+    data () {
+        return {
+            goToArena: true,
+            items: [
+                {title: 'Арена'}
+            ]
+        }
     }
-  }
 }
 </script>
 
