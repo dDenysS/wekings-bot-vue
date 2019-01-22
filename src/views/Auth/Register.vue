@@ -22,7 +22,7 @@
                                     label="Пароль"
                                     type="password"
                                     value="пароль"
-                                    :counter="6"
+                                    :counter="(6, 15)"
                                     :rules="rules.password"
                                     v-model="password"/>
                             <v-text-field
@@ -30,7 +30,7 @@
                                     name="confirm-password"
                                     label="Подтвердите пароль"
                                     type="password"
-                                    :counter="6"
+                                    :counter="(6, 15)"
                                     :rules="rules.confirmPassword"
                                     v-model="confirmPassword"/>
                         </v-form>
@@ -69,7 +69,8 @@ export default {
                 ],
                 password: [
                     v => !!v || 'Введите пароль',
-                    v => (v && v.length >= 6) || 'Пароль должен быть не меньше 6 символов'
+                    v => (v && v.length >= 6) || 'Пароль должен быть не меньше 6 символов',
+                    v => (v && v.length <= 15) || 'Пароль должен быть не больше 15 символов'
                     // TODO тут тож додати не більше 15 символів
                 ],
                 confirmPassword: [

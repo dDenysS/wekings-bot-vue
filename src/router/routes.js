@@ -17,11 +17,13 @@ export default [
                 path: 'bot/settings',
                 name: 'botSettings',
                 component: () => import('../views/User/Bot')
+            },
+            {
+                // TODO зробиш сторінку 404
+                path: '/404',
+                name: '404',
+                component: () => import('../views/Home/components/404')
             }
-            /* { //TODO зробиш сторінку 404
-                path: '404',
-                component: () => import('../components/404')
-            } */
         ]
     },
     {

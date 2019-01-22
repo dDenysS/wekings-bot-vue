@@ -36,23 +36,19 @@
                             primary
                             hide-details/>
                 </td>
+                <td class="text-xs-center">{{ props.item.id }}</td>
                 <td class="text-xs-center">{{ props.item.name }}</td>
                 <td class="text-xs-center">
-                    {{ props.item.calories }}
+                    {{ props.item.isWork }}
                 </td>
                 <td class="text-xs-center">
-                    {{ props.item.fat }}
+                    {{ props.item.changeSettings }}
                 </td>
                 <td class="text-xs-center">
-                    {{ props.item.carbs }}
-                </td>
-                <td class="text-xs-center">
-                    {{ props.item.protein }}
-                </td>
-                <td class="text-xs-center">
-                    {{ props.item.iron }}
+                    {{ props.item.removeBot }}
                 </td>
             </tr>
+            <h1>{{ getDataTest }}</h1>
         </template>
     </v-data-table>
 </template>
@@ -61,40 +57,44 @@
 export default {
     name: 'BotsTable',
     data: () => ({
+        getDataTest: 'test',
         selected: [],
         headers: [
+            {text: 'id', value: 'botNumber', sortable: false},
             {
-                text: 'Dessert (100g serving)',
+                text: 'Логин бота',
                 align: 'left',
                 value: 'name'
             },
-            {text: 'Calories', value: 'calories', sortable: false},
-            {text: 'Fat (g)', value: 'fat', sortable: false},
-            {text: 'Carbs (g)', value: 'carbs', sortable: false},
-            {text: 'Protein (g)', value: 'protein'},
-            {text: 'Iron (%)', value: 'iron', sortable: false}
+            {text: 'Включен ли бот', value: 'isWork', sortable: false},
+            {text: 'Изменить настройки', value: 'changeSettings', sortable: false},
+            {text: 'Удалить бота', value: 'removeBot', sortable: false}
         ],
         desserts: [
             {
+                id: 1,
                 value: false,
                 name: 'Frozen Yogurt',
-                calories: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: 4.0,
-                iron: '1%'
-            },
-            {
-                value: false,
-                name: 'Ice cream sandwich',
-                calories: 237,
-                fat: 9.0,
-                carbs: 37,
-                protein: 4.3,
-                iron: '1%'
+                isWork: 'Да',
+                changeSettings: 6.0,
+                removeBot: 24
             }
+            // {
+            //     botNumber: 2,
+            //     value: false,
+            //     name: 'Ice cream sandwich',
+            //     calories: 237,
+            //     fat: 9.0,
+            //     carbs: 37,
+            //     protein: 4.3,
+            //     iron: '1%'
+            // }
         ]
     }),
+
+    created () {
+        this.getBots()
+    },
 
     methods: {
         toggleAll () {
@@ -103,6 +103,13 @@ export default {
             } else {
                 this.selected = this.desserts.slice()
             }
+        },
+
+        getBots () {
+            this.$http('/bots')
+                .then((res) => {
+                    this.getDataTest = res.data
+                })
         }
     }
 }
