@@ -112,6 +112,7 @@ export default {
                 password: this.password.trim(),
                 code: this.code.trim()
             }).then(() => {
+                this.$bus.$emit('update-bots-table')
                 this.dialog = false
             }).catch(err => {
                 this.responseNotify = err.response.data.notify || err.response.data.message

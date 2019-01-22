@@ -11,6 +11,10 @@
             </v-toolbar-title>
             <v-spacer/>
             <v-toolbar-items>
+                <v-btn v-if="isAdmin" flat :to="{name:'admin'}">
+                    <v-icon left>person</v-icon>
+                    Адмінка
+                </v-btn>
                 <v-btn flat @click="sideNav = !sideNav">
                     <v-icon left>settings</v-icon>
                     Настройки
@@ -31,11 +35,15 @@
 <script>
 import Snackbar from '../components/Snackbar'
 import * as types from '../store/actions.types'
+import {mapGetters} from 'vuex'
 
 export default {
     name: 'Layout',
     components: {
         Snackbar
+    },
+    computed: {
+        ...mapGetters(['isAdmin'])
     },
     methods: {
         logout () {
@@ -46,3 +54,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .title-pointer:hover {
+        cursor: pointer
+    }
+</style>

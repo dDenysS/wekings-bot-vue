@@ -13,7 +13,7 @@ function redirect (state) {
 export default {
     [types.AUTH_STATUS]: ({commit}) => {
         return new Promise((resolve, reject) => {
-            http('/auth/status')
+            http('public/auth/status')
                 .then(({data}) => {
                     commit(types.AUTH_SUCCESS, data)
                     redirect(data)
@@ -26,7 +26,7 @@ export default {
     },
     [types.AUTH_SING_IN]: ({commit}, form) => {
         return new Promise((resolve, reject) => {
-            http.post('/auth/login', form)
+            http.post('public/auth/login', form)
                 .then(({data}) => {
                     commit(types.AUTH_SUCCESS, {...data, isAuth: true})
                     redirect({...data, isAuth: true})
@@ -39,7 +39,7 @@ export default {
     },
     [types.AUTH_LOGOUT]: ({commit}) => {
         return new Promise((resolve, reject) => {
-            http('/auth/logout')
+            http('public/auth/logout')
                 .then(() => {
                     commit(types.AUTH_LOGOUT)
                     router.push({name: 'login'})

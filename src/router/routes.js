@@ -6,7 +6,7 @@ export default [
             {
                 path: '/',
                 name: 'home',
-                component: () => import('../views/Home/index')
+                component: () => import('../views/Home')
             },
             {
                 path: 'bot',
@@ -17,6 +17,15 @@ export default [
                 path: 'bot/settings',
                 name: 'botSettings',
                 component: () => import('../views/User/Bot')
+            },
+            {
+                path: '/admin',
+                name: 'admin',
+                meta: {
+                    admin: true
+                },
+                component: () => import('../views/Admin')
+
             }
             /* { //TODO зробиш сторінку 404
                 path: '404',

@@ -84,7 +84,7 @@ export default {
             if (!this.$refs.form.validate()) return
 
             this.$set(this.loading, 'submitButton', true)
-            this.$http.post('/auth/register', {
+            this.$http.post('public/auth/register', {
                 email: this.email,
                 password: this.password,
                 confirmPassword: this.confirmPassword

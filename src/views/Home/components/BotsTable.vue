@@ -2,7 +2,7 @@
     <v-data-table
             v-model="selected"
             :headers="headers"
-            :items="desserts"
+            :items="bots"
             select-all
             hide-actions
             item-key="name"
@@ -31,26 +31,25 @@
             <tr :active="props.selected"
                 @click="props.selected = !props.selected">
                 <td>
-                    <v-checkbox
-                            :input-value="props.selected"
-                            primary
-                            hide-details/>
+                    <v-checkbox :input-value="props.selected"
+                                primary
+                                hide-details/>
                 </td>
+                <td class="text-xs-center">{{ props.item.id }}</td>
                 <td class="text-xs-center">{{ props.item.name }}</td>
                 <td class="text-xs-center">
-                    {{ props.item.calories }}
+                    <v-btn outline :color="`${props.item.runing?'green':'red'}`">
+                        {{props.item.runing?'Запущен':'Не запущен' }}
+                    </v-btn>
                 </td>
-                <td class="text-xs-center">
-                    {{ props.item.fat }}
-                </td>
-                <td class="text-xs-center">
-                    {{ props.item.carbs }}
-                </td>
-                <td class="text-xs-center">
-                    {{ props.item.protein }}
-                </td>
-                <td class="text-xs-center">
-                    {{ props.item.iron }}
+                <td class="justify-center align-center layout px-0">
+                    <v-tooltip top>
+                        <v-icon class="mr-2"
+                                slot="activator">
+                            play_arrow
+                        </v-icon>
+                        <span>Запустить</span>
+                    </v-tooltip>
                 </td>
             </tr>
         </template>
@@ -62,47 +61,33 @@ export default {
     name: 'BotsTable',
     data: () => ({
         selected: [],
+        bots: [],
         headers: [
-            {
-                text: 'Dessert (100g serving)',
-                align: 'left',
-                value: 'name'
-            },
-            {text: 'Calories', value: 'calories', sortable: false},
-            {text: 'Fat (g)', value: 'fat', sortable: false},
-            {text: 'Carbs (g)', value: 'carbs', sortable: false},
-            {text: 'Protein (g)', value: 'protein'},
-            {text: 'Iron (%)', value: 'iron', sortable: false}
-        ],
-        desserts: [
-            {
-                value: false,
-                name: 'Frozen Yogurt',
-                calories: 159,
-                fat: 6.0,
-                carbs: 24,
-                protein: 4.0,
-                iron: '1%'
-            },
-            {
-                value: false,
-                name: 'Ice cream sandwich',
-                calories: 237,
-                fat: 9.0,
-                carbs: 37,
-                protein: 4.3,
-                iron: '1%'
-            }
+            {text: 'id', align: 'center', value: 'name'},
+            {text: 'Логин', value: 'name'},
+            {text: 'Статус', value: 'runing'},
+            {text: 'Действия', value: 'actions', sortable: false}
         ]
     }),
-
+    created () {
+        this.getBots()
+        this.$bus.$on('update-bots-table', this.getBots)
+    },
+    beforeDestroy () {
+        this.$bus.$off('update-bots-table', this.getBots)
+    },
     methods: {
         toggleAll () {
             if (this.selected.length) {
                 this.selected = []
             } else {
-                this.selected = this.desserts.slice()
+                this.selected = this.bots.slice()
             }
+        },
+        getBots () {
+            this.$http('/bots').then(({data}) => {
+                this.bots = data
+            })
         }
     }
 }
