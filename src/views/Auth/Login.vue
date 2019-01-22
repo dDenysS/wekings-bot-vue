@@ -22,7 +22,7 @@
                                     label="Пароль"
                                     type="password"
                                     value="пароль"
-                                    :counter="6"
+                                    :counter="(6, 15)"
                                     :rules="rules.password"
                                     v-model="password"/>
                         </v-form>
@@ -73,7 +73,8 @@ export default {
                 ],
                 password: [
                     v => !!v || 'Введите свой пароль',
-                    v => (v && v.length >= 6) || 'Пароль должен быть не меньше 6 символов'
+                    v => (v && v.length >= 6) || 'Пароль должен быть не меньше 6 символов',
+                    v => (v && v.length <= 15) || 'Пароль должен быть не больше 15 символов'
                     // TODO Додати щоб не більше 15 символів
                 ]
             }
