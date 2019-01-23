@@ -43,12 +43,29 @@
                     </v-btn>
                 </td>
                 <td class="justify-center align-center layout px-0">
-                    <v-tooltip top>
-                        <v-icon class="mr-2"
-                                slot="activator">
-                            play_arrow
-                        </v-icon>
+                    <v-tooltip v-if="props.item.runing" top>
+                        <v-btn flat icon @click="toggleStateBot(false,props.item.id)" slot="activator">
+                            <v-icon>
+                                pause_arrow
+                            </v-icon>
+                        </v-btn>
+                        <span>Остановить</span>
+                    </v-tooltip>
+                    <v-tooltip v-else top>
+                        <v-btn @click="toggleStateBot(true,props.item.id)" flat icon slot="activator">
+                            <v-icon>
+                                play_arrow
+                            </v-icon>
+                        </v-btn>
                         <span>Запустить</span>
+                    </v-tooltip>
+                    <v-tooltip top>
+                        <v-btn flat icon @click="editBlock(props.item.id)" slot="activator">
+                            <v-icon>
+                                edit
+                            </v-icon>
+                        </v-btn>
+                        <span>Редактировать</span>
                     </v-tooltip>
                 </td>
             </tr>
@@ -88,11 +105,19 @@ export default {
             this.$http('/bots').then(({data}) => {
                 this.bots = data
             })
+        },
+        editBlock (id) {
+            this.$router.push({name: 'botSettings', params: {id}})
+        },
+        // TODO не реалізовано ще на сервері
+        toggleStateBot (state, id) {
+            this.$http(`/bots/state/${id}`).then(() => {
+                this.getBots()
+                this.$bus.$emit('show-snackbar', 'Бот успешно запущен', 'success')
+            }).catch(err => {
+                this.$bus.$emit('show-snackbar', `Ошибка. ${err.message}`, 'error')
+            })
         }
     }
 }
 </script>
-
-<style scoped>
-
-</style>

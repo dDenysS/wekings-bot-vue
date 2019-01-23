@@ -11,12 +11,12 @@ export default [
             {
                 path: 'bot',
                 name: 'bot',
-                component: () => import('../views/User/Bot')
+                component: () => import('../views/Bot/Constructor')
             },
             {
-                path: 'bot/settings',
+                path: 'bot/settings/:id',
                 name: 'botSettings',
-                component: () => import('../views/User/Bot')
+                component: () => import('../views/Bot/Constructor')
             },
             {
                 path: '/admin',

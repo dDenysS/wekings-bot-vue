@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from '../router/'
 
 const http = axios.create({
-    baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7777/api' : '/',
+    baseURL: process.env.NODE_ENV === 'development' ? 'http://localhost:7777/api' : '/api',
     timeout: 5000,
     withCredentials: true
 })

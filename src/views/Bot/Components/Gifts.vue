@@ -1,0 +1,125 @@
+<template>
+    <v-layout row>
+        <v-flex xs12>
+            <v-expansion-panel>
+                <v-expansion-panel-content
+                        v-for="(item ,i) in items"
+                        :key="i"
+                        expand-icon="mdi-menu-down">
+                    <div slot="header" class="display-1">{{ item.title }}</div>
+                    <v-layout v-if="receiveGifts" class="pl-5 pb-3" wrap>
+                        <v-flex xs12>
+                            <v-checkbox color="orange" color-label="black"
+                                        label="Автоматически получать и отправлять подарки в игре!"
+                                        v-model="receiveGifts"/>
+                        </v-flex>
+                        <v-flex xs12>
+                            <v-form ref="form"
+                                    v-model="valid"
+                                    lazy-validation>
+                                <v-layout align-center v-for="(item,index) in selected" :key="index">
+                                    <v-flex xs12 sm4 d-flex class="mr-5">
+                                        <v-text-field v-model="item.userId" :rules="rules.required" label="id получателя"/>
+                                    </v-flex>
+                                    <v-flex xs12 sm4 d-flex>
+                                        <v-select v-model="item.gift" :rules="rules.required" :items="gifts" label="Выбор подарка"/>
+                                    </v-flex>
+                                    <v-flex xs12 sm4 d-flex>
+                                        <v-tooltip top>
+                                            <v-btn @click="deleteField(index)" flat icon slot="activator">
+                                                <v-icon>
+                                                    close
+                                                </v-icon>
+                                            </v-btn>
+                                            <span>Удалить поле</span>
+                                        </v-tooltip>
+                                    </v-flex>
+                                </v-layout>
+                            </v-form>
+                            <v-btn class="yellow darken-4 white--text" @click="addField">Додати поле</v-btn>
+                        </v-flex>
+                        <v-btn @click="submit" color="success">Сохранить</v-btn>
+                        <v-flex xs12 class="font-weight-bold font-italic mt-2">
+                            Примечание: убедитесь что ваш уровень
+                            достаточный для отправки выбранных подарков, в противном случае подарки не будут
+                            отправлены!
+                        </v-flex>
+                    </v-layout>
+                </v-expansion-panel-content>
+            </v-expansion-panel>
+        </v-flex>
+    </v-layout>
+</template>
+
+<script>
+export default {
+    data () {
+        return {
+            receiveGifts: true,
+            runBot: true,
+            rules: {
+                required: [v => !!v || 'Поле є обов\'язковим']
+            },
+            valid: true,
+            selected: [{userId: '', gift: ''}],
+            items: [
+                {title: 'Отправка и получение подарков'}
+            ],
+            gifts: [
+                // {title: 'Коробочка - с 1 уровня', id: 1}
+                'Коробочка - с 1 уровня',
+                'Цветочек - с 2 уровня',
+                'Чаша здоровья - с 5 уровня',
+                'Энергетический напиток - с 5 уровня',
+                'Валентинка - с 5 уровня',
+                'Сундук - с 6 уровня',
+                'Перчатка силы - с 7 уровня',
+                'Серебряный капкан - с 8 уровня',
+                'Книга знаний - с 8 уровня',
+                'Кольцо щедрости - с 8 уровня',
+                'Запечатанный конверт - с 10 уровня',
+                'Братское знамя - с 10 уровня',
+                'Осиновый кол - с 10 уровня',
+                'Заколдованные перья - с 11 уровня',
+                'Узел достатка - с 11 уровня',
+                'Волшебная лилия - с 12 уровня',
+                'Храброе сердце - с 13 уровня',
+                'Талисман кристаллов - с 14 уровня',
+                'Корона - с 14 уровня',
+                'Порошок удачи - с 15 уровня',
+                'Плащ-невидимка - с 15 уровня',
+                'Статуэтка защиты - с 16 уровня',
+                'Яд Медузы - с 17 уровня',
+                'Магическая энергия - с 18 уровня',
+                'Корень драцены - с 20 уровня',
+                'Сияние Магмы - с 27 уровня'
+            ]
+        }
+    },
+    methods: {
+        addField () {
+            const selected = this.selected.slice()
+            selected.push({userId: '', gift: ''})
+            this.selected = selected
+        },
+        deleteField (index) {
+            const selected = this.selected.slice()
+            selected.splice(index, 1)
+            this.selected = selected
+        },
+        submit () {
+          console.log(this.$refs.form)
+          if (!this.$refs.form.validate()) return
+            this.http.put('/bots/options/gifts', this.gifts).then(() => {
+                this.$bus.$emit('show-snackbar', 'Успешно сохранено', 'success')
+            }).catch(err => {
+                this.$bus.$off('show-snackbar', `Произошла ошибка. ${err.message}`, 'error')
+            })
+        }
+    }
+}
+</script>
+
+<style scoped>
+
+</style>
