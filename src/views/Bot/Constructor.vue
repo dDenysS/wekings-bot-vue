@@ -4,8 +4,8 @@
                 <v-flex><h1 class="my-3 pl-3">Настройки бота</h1></v-flex>
             </v-layout>
             <Gifts/>
-            <!--<Curses/>-->
-            <!--<Mine/>-->
+            <Curses/>
+            <Mine/>
             <!--&lt;!&ndash;<Arena/>&ndash;&gt;-->
             <!--<Dungeon/>-->
             <!--<Sail/>-->

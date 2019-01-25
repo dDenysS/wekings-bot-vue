@@ -19,10 +19,12 @@
                                     lazy-validation>
                                 <v-layout align-center v-for="(item,index) in selected" :key="index">
                                     <v-flex xs12 sm4 d-flex class="mr-5">
-                                        <v-text-field v-model="item.userId" :rules="rules.required" label="id получателя"/>
+                                        <v-text-field v-model="item.userId" :rules="rules.required"
+                                                      label="id получателя"/>
                                     </v-flex>
                                     <v-flex xs12 sm4 d-flex>
-                                        <v-select v-model="item.gift" :rules="rules.required" :items="gifts" label="Выбор подарка"/>
+                                        <v-select v-model="item.gift" :rules="rules.required" :items="gifts"
+                                                  label="Выбор подарка"/>
                                     </v-flex>
                                     <v-flex xs12 sm4 d-flex>
                                         <v-tooltip top>
@@ -96,11 +98,32 @@ export default {
             ]
         }
     },
+    created () {
+        this.getGifts()
+    },
     methods: {
+        getGifts () {
+            this.$http(`bots/options/gifts/${this.$route.params.id}`)
+                .then(({data}) => {
+                    if (data[0].gifts === null) {
+                        this.selected = [{userId: '', gift: ''}]
+                    } else {
+                        this.selected = data[0].gifts
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
         addField () {
-            const selected = this.selected.slice()
-            selected.push({userId: '', gift: ''})
-            this.selected = selected
+            if (this.selected.length >= 3) {
+                // TODO error
+                console.log('error')
+            } else {
+                const selected = this.selected.slice()
+                selected.push({userId: '', gift: ''})
+                this.selected = selected
+            }
         },
         deleteField (index) {
             const selected = this.selected.slice()
@@ -108,9 +131,7 @@ export default {
             this.selected = selected
         },
         submit () {
-          console.log(this.$refs.form)
-          if (!this.$refs.form.validate()) return
-            this.http.put('/bots/options/gifts', this.gifts).then(() => {
+            this.$http.put(`/bots/options/gifts/${this.$route.params.id}`, this.selected).then(() => {
                 this.$bus.$emit('show-snackbar', 'Успешно сохранено', 'success')
             }).catch(err => {
                 this.$bus.$off('show-snackbar', `Произошла ошибка. ${err.message}`, 'error')
