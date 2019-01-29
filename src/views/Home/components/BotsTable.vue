@@ -15,7 +15,7 @@
                     <v-checkbox
                             :input-value="props.all"
                             :indeterminate="props.indeterminate"
-                            primary
+                            color="orange"
                             hide-details
                             @click.stop="toggleAll"/>
                 </th>
@@ -28,20 +28,25 @@
         <template
                 slot="items"
                 slot-scope="props">
-            <tr :active="props.selected"
-                @click="props.selected = !props.selected">
+            <tr :active="props.selected">
                 <td>
                     <v-checkbox :input-value="props.selected"
-                                primary
+                                @click="props.selected = !props.selected"
+                                color="orange"
                                 hide-details/>
                 </td>
                 <td class="text-xs-center">{{ props.item.id }}</td>
                 <td class="text-xs-center">{{ props.item.name }}</td>
+                <td class="text-xs-center">{{ props.item.level }}</td>
                 <td class="text-xs-center">
                     <v-btn outline :color="`${props.item.runing?'green':'red'}`">
                         {{props.item.runing?'Запущен':'Не запущен' }}
                     </v-btn>
                 </td>
+                <td class="text-xs-center">{{ props.item.gold }}</td>
+                <td class="text-xs-center">{{ props.item.crystal }}</td>
+                <td class="text-xs-center">{{ props.item.silver }}</td>
+                <td class="text-xs-center">{{ props.item.fights }}</td>
                 <td class="justify-center align-center layout px-0">
                     <v-tooltip v-if="props.item.runing" top>
                         <v-btn flat icon @click="toggleStateBot(false,props.item.id)" slot="activator">
@@ -60,12 +65,28 @@
                         <span>Запустить</span>
                     </v-tooltip>
                     <v-tooltip top>
+                        <v-btn flat icon @click="syncAccBot(props.item.id, props.index)" slot="activator">
+                            <v-icon>
+                                update
+                            </v-icon>
+                        </v-btn>
+                        <span>Cинхронизировать аккаунт с ботом</span>
+                    </v-tooltip>
+                    <v-tooltip top>
                         <v-btn flat icon @click="editBlock(props.item.id)" slot="activator">
                             <v-icon>
                                 edit
                             </v-icon>
                         </v-btn>
                         <span>Редактировать</span>
+                    </v-tooltip>
+                    <v-tooltip top>
+                        <v-btn flat icon @click="deleteBot(props.item.id)" slot="activator">
+                            <v-icon>
+                                close
+                            </v-icon>
+                        </v-btn>
+                        <span>Удалить</span>
                     </v-tooltip>
                 </td>
             </tr>
@@ -82,9 +103,17 @@ export default {
         headers: [
             {text: 'id', align: 'center', value: 'name'},
             {text: 'Логин', value: 'name'},
+            {text: 'Уровень', value: 'name'},
             {text: 'Статус', value: 'runing'},
+            {text: 'Золото', value: 'gold'},
+            {text: 'Кристаллы', value: 'crystal'},
+            {text: 'Серебро', value: 'silver'},
+            {text: 'Бои', value: 'fights'},
             {text: 'Действия', value: 'actions', sortable: false}
-        ]
+        ],
+        loading: {
+            table: false
+        }
     }),
     created () {
         this.getBots()
@@ -102,12 +131,42 @@ export default {
             }
         },
         getBots () {
+            this.$set(this.loading, 'table', true)
             this.$http('/bots').then(({data}) => {
                 this.bots = data
+            }).catch(err => {
+                this.$bus.$emit('show-snackbar', `Ошибка. ${err.message}`, 'error')
+            }).finally(() => {
+                this.$set(this.loading, 'table', false)
             })
         },
         editBlock (id) {
             this.$router.push({name: 'botSettings', params: {id}})
+        },
+        deleteBot (id) {
+            if (this.loading.table) return
+            if (!confirm('Я уверен что хочу удалить!!')) return
+
+            this.$http.delete(`/bots/${id}`).then(() => {
+                this.getBots()
+            }).catch(err => {
+                this.$bus.$emit('show-snackbar', `Ошибка. ${err.message}`, 'error')
+            }).finally(() => {
+                this.$set(this.loading, 'table', false)
+            })
+        },
+        syncAccBot (id, index) {
+            if (this.loading.table) return
+
+            this.$http(`/bots/sync/${id}`).then(({data}) => {
+                const bots = this.bots.slice()
+                bots[index] = data
+                this.bots = bots
+            }).catch(err => {
+                this.$bus.$emit('show-snackbar', `Ошибка. ${err.message}`, 'error')
+            }).finally(() => {
+                this.$set(this.loading, 'table', false)
+            })
         },
         // TODO не реалізовано ще на сервері
         toggleStateBot (state, id) {

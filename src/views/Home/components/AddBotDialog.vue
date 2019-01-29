@@ -127,7 +127,7 @@ export default {
             }
             this.captchaUrl = null
             this.username = 'midflash'
-            this.password = ' 1Specialized1'
+            this.password = '1Specialized1'
             this.valid = null
             this.code = ''
             this.responseNotify = ''
