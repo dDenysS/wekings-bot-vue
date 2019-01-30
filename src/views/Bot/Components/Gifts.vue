@@ -23,8 +23,16 @@
                                                       label="id получателя"/>
                                     </v-flex>
                                     <v-flex xs12 sm4 d-flex>
-                                        <v-select v-model="item.gift" :rules="rules.required" :items="gifts"
+                                        <v-select v-model="item.gift" :rules="rules.required" :items="gifts" item-text="giftName"
                                                   label="Выбор подарка"/>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 d-flex>
+                                        <v-select
+                                                :items="gifts"
+                                                item-value="level"
+                                                item-text="urlName"
+                                                label="Url Name"
+                                        ></v-select>
                                     </v-flex>
                                     <v-flex xs12 sm4 d-flex>
                                         <v-tooltip top>
@@ -99,6 +107,7 @@ export default {
     },
     created () {
         this.getGifts()
+        this.getGiftsInfo()
     },
     methods: {
         getGifts () {
@@ -109,6 +118,15 @@ export default {
                     } else {
                         this.selected = data[0].gifts
                     }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        getGiftsInfo () {
+            this.$http('/bots/options/gifts')
+                .then(({data}) => {
+                    this.gifts = data
                 })
                 .catch(err => {
                     console.log(err)

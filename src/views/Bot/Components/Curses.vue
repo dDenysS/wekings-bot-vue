@@ -23,9 +23,16 @@
                                   label="id получателя"/>
                   </v-flex>
                   <v-flex xs12 sm4 d-flex>
-                    <v-select v-model="item.curse" :rules="rules.required" :items="curses"
+                    <v-select v-model="item.curse" :rules="rules.required" :items="curses" item-text="curseName"
                               label="Выбор проклятия"/>
                   </v-flex>
+                    <v-flex xs12 sm6 d-flex>
+                        <v-select
+                                :items="curses"
+                                item-text="urlName"
+                                label="Url Name"
+                        ></v-select>
+                    </v-flex>
                   <v-flex xs12 sm4 d-flex>
                     <v-tooltip top>
                       <v-btn @click="deleteField(index)" flat icon slot="activator">
@@ -101,6 +108,7 @@ export default {
     },
     created () {
         this.getCurses()
+        this.getCursesInfo()
     },
     methods: {
         getCurses () {
@@ -111,6 +119,15 @@ export default {
                     } else {
                         this.selected = data[0].curses
                     }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        },
+        getCursesInfo () {
+            this.$http('/bots/options/curses')
+                .then(({data}) => {
+                    this.curses = data
                 })
                 .catch(err => {
                     console.log(err)
