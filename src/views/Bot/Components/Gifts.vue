@@ -23,7 +23,7 @@
                                                       label="id получателя"/>
                                     </v-flex>
                                     <v-flex xs12 sm4 d-flex>
-                                        <v-select v-model="item.gift" :rules="rules.required" :items="gifts" :item-value="id" item-text="urlName"
+                                        <v-select v-model="item.gift" :rules="rules.required" :items="gifts" :item-value="id" item-text="giftName"
                                                   label="Выбор подарка">
                                         </v-select>
                                     </v-flex>
