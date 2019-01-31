@@ -1,15 +1,21 @@
 <template>
     <v-container>
-            <v-layout class="mb-2">
-                <v-flex><h1 class="my-3 pl-3">Настройки бота</h1></v-flex>
-            </v-layout>
-            <Gifts/>
-            <Curses/>
-            <Mine/>
-            <!--&lt;!&ndash;<Arena/>&ndash;&gt;-->
-            <!--<Dungeon/>-->
-            <!--<Sail/>-->
-            <!--<Portal/>-->
+        <v-layout class="mb-2">
+            <v-flex><h1 class="my-3 pl-3">Настройки бота</h1></v-flex>
+        </v-layout>
+        <v-layout row>
+            <v-flex xs12>
+                <v-expansion-panel>
+                    <gifts/>
+                    <curses/>
+                    <mine/>
+                </v-expansion-panel>
+            </v-flex>
+        </v-layout>
+        <!--&lt;!&ndash;<Arena/>&ndash;&gt;-->
+        <!--<Dungeon/>-->
+        <!--<Sail/>-->
+        <!--<Portal/>-->
     </v-container>
 </template>
 
